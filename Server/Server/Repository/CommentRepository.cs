@@ -155,9 +155,6 @@ namespace Server.Repository
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@Id", comment.Id);
                         cmd.Parameters.AddWithValue("@Content", comment.Content);
-                        //cmd.Parameters.AddWithValue("@CommentDate", comment.CommentDate);
-                        //cmd.Parameters.AddWithValue("@CommentLike", comment.CommentLikes);
-                        //cmd.Parameters.AddWithValue("@CommentUnlike", comment.CommentUnlikes);
                         cmd.ExecuteNonQuery();
                     }
                 }

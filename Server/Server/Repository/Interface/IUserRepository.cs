@@ -1,4 +1,5 @@
-﻿using Server.Models;
+﻿using Server.DTO;
+using Server.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,11 @@ namespace Server.Repository.Interface
 {
     public interface IUserRepository
     {
-        User GetUserByUsernameAndPassword(string username, string password);
+        User GetUserById(int id);
         bool CheckUsername(string username);
         bool CheckEmail(string userEmail);
         int Insert(User user);
-        void Update(User user);
+        void Update(int id, string password);
         void Delete(User user);
     }
 }

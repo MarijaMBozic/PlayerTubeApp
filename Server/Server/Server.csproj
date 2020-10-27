@@ -179,9 +179,11 @@
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DTO\CommentDTO.cs" />
     <Compile Include="DTO\LoginDataDTO.cs" />
+    <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -199,12 +201,20 @@
     <Compile Include="Repository\CommentRepository.cs" />
     <Compile Include="Repository\Interface\ICommentRepository.cs" />
     <Compile Include="Repository\Interface\ILoginRepository.cs" />
+    <Compile Include="Repository\Interface\IUserRepository.cs" />
+    <Compile Include="Repository\Interface\IVideoRepository.cs" />
     <Compile Include="Repository\LoginRepository.cs" />
+    <Compile Include="Repository\UserRepository.cs" />
+    <Compile Include="Repository\VideoRepository.cs" />
     <Compile Include="Resolver\UnityResolver.cs" />
     <Compile Include="Service\CommentService.cs" />
     <Compile Include="Service\Interface\ICommentService.cs" />
     <Compile Include="Service\Interface\ILoginService.cs" />
+    <Compile Include="Service\Interface\IUserService.cs" />
+    <Compile Include="Service\Interface\IVideoService.cs" />
     <Compile Include="Service\LoginService.cs" />
+    <Compile Include="Service\UserService.cs" />
+    <Compile Include="Service\VideoService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -269,6 +279,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Upload\Videos\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -11,46 +11,40 @@ using System.Web.Http;
 
 namespace Server.Controllers
 {
-    public class CommentController : ApiController
+    public class UserController : ApiController
     {
-        ICommentService _service { get; set; }
+        IUserService _service { get; set; }
 
-        public CommentController(ICommentService service)
+        public UserController(IUserService service)
         {
             _service = service;
         }
-        [JwtAuthentication]
-        public IEnumerable<CommentDTO> GetAllCommentsBySongId(int videoId)
-        {
-            return _service.GetAllCommentsByVideoId(videoId);
-        }
 
-        [JwtAuthentication]
-        public IHttpActionResult Post(Comment comment)
+        [AllowAnonymous]
+        public IHttpActionResult Post(User user)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            comment = _service.Insert(comment);
-            return CreatedAtRoute("DefaultApi", new { id = comment.Id }, comment);
+            user = _service.Insert(user);
+            return CreatedAtRoute("DefaultApi", new { id = user.Id }, user);
         }
 
         [JwtAuthentication]
-        public IHttpActionResult Put(int id, Comment comment)
+        public IHttpActionResult Put(int id, UserDTO user)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (_service.Update(id, comment) == null)
+            if (_service.Update(id, user))
             {
-                return BadRequest("Not found");
-            }
-            return Ok();
-
+                return Ok();
+            }            
+            return BadRequest("Not found");
         }
 
         [JwtAuthentication]
@@ -64,4 +58,3 @@ namespace Server.Controllers
         }
     }
 }
-

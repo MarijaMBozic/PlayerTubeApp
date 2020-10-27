@@ -6,6 +6,7 @@ using Server.Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Web.Http;
 using Unity;
 using Unity.Lifetime;
@@ -17,6 +18,7 @@ namespace Server
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+            config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/plain"));
             config.Filters.Add(new AuthorizeAttribute());
 
             // Web API routes
@@ -30,7 +32,8 @@ namespace Server
 
             // Unity
             var container = new UnityContainer();
-            //container.RegisterType<IUserRepository, UserRepository>(new HierarchicalLifetimeManager());
+            container.RegisterType<IUserRepository, UserRepository>(new HierarchicalLifetimeManager());
+            container.RegisterType<IUserService, UserService>(new HierarchicalLifetimeManager());
             container.RegisterType<ICommentRepository, CommentRepository>(new HierarchicalLifetimeManager());
             container.RegisterType<ICommentService, CommentService>(new HierarchicalLifetimeManager());
             container.RegisterType<ILoginRepository, LoginRepository>(new HierarchicalLifetimeManager());
