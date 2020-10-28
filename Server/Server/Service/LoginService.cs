@@ -33,8 +33,12 @@ namespace Server.Service
                 {
                     loginUser.Token = TokenMenager.GenerateToken(loginUser.Id, loginUser.Username);
                 }
+                else
+                {
+                    throw new LoginExeption();
+                }
 
-                throw new LoginExeption();
+                return loginUser;
             }
             catch (Exception ex)
             {
