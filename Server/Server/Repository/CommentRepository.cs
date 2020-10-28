@@ -42,7 +42,8 @@ namespace Server.Repository
                                 CreateDate = DateTime.Parse(row[2].ToString()),
                                 CommentLikes = int.Parse(row[3].ToString()),
                                 Unlikes = int.Parse(row[4].ToString()),
-                                Username = row[5].ToString()
+                                Username = row[5].ToString(), 
+                                UserId= int.Parse(row[6].ToString())
                             };
                             response = comment;
                         }

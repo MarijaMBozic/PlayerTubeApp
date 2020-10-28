@@ -5,6 +5,7 @@ using Server.Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 
 namespace Server.Service
@@ -72,14 +73,25 @@ namespace Server.Service
         public bool Delete(int id)
         {
             var comment = _repository.GetCommentById(id);
+
+            var identity = HttpContext.Current.User.Identity as ClaimsIdentity;
+            if (identity == null)
+            {
+                return false;
+            }
+
             if (comment == null)
             {
                 return false;
             }
             try
             {
-                _repository.Delete(comment);
-                return true;
+                if (identity.Name == comment.UserId.ToString())
+                {
+                    _repository.Delete(comment);
+                    return true;
+                }
+                return false;
             }
             catch (Exception ex)
             {

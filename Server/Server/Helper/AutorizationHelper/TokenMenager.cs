@@ -22,8 +22,8 @@ namespace Server.Helper.AutorizationHelper
             {
                 Subject = new ClaimsIdentity(new[]
                         {
-                            new Claim(ClaimTypes.NameIdentifier, Id.ToString()),
-                            new Claim(ClaimTypes.Name, username)
+                            new Claim(ClaimTypes.Name, Id.ToString()),
+                            new Claim(ClaimTypes.GivenName, username)
                         }),
 
                 Expires = DateTime.UtcNow.AddDays(1),

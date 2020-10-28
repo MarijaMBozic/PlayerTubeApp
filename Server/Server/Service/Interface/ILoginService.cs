@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Server.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,6 @@ namespace Server.Service.Interface
 {
     public interface ILoginService
     {
-        string Login(string email, string password);
-        bool CheckUser(string email, string password);
+        LoginDataDTO Login(string email, string password);
     }
 }

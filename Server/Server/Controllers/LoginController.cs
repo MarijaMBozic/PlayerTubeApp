@@ -1,4 +1,5 @@
-﻿using Server.Models;
+﻿using Server.DTO;
+using Server.Models;
 using Server.Service.Interface;
 using System;
 using System.Collections.Generic;
@@ -22,12 +23,12 @@ namespace Server.Controllers
         [Route("api/Token")]
         public IHttpActionResult Post(User user)
         {
-            var token = _service.Login(user.Email, user.Password);
-            if (token != string.Empty)
+            LoginDataDTO loginUser = _service.Login(user.Email, user.Password);
+            if (loginUser != null)
             {
-                return Ok(token);
+                return Ok(loginUser);
             }
-            return BadRequest();
+           return Content(HttpStatusCode.BadRequest, "Invalid credentials please try again!");            
         }
     }
 }

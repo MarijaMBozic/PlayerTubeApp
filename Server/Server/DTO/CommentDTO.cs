@@ -13,5 +13,6 @@ namespace Server.DTO
         public int CommentLikes { get; set; }
         public int Unlikes { get; set; }
         public string Username { get; set; }
+        public int UserId { get; set; }
     }
 }

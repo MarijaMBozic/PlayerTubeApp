@@ -21,11 +21,12 @@ namespace Server.Controllers
         }
 
         [AllowAnonymous]
+        [Route("api/Registration")]
         public IHttpActionResult Post(User user)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return Content(HttpStatusCode.BadRequest, "Registration data is not in valid format!");
             }
 
             user = _service.Insert(user);
@@ -37,14 +38,14 @@ namespace Server.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return Content(HttpStatusCode.BadRequest, "Password is not in valid format!");
             }
 
             if (_service.Update(id, user))
             {
                 return Ok();
             }            
-            return BadRequest("Not found");
+            return Content(HttpStatusCode.BadRequest, "The user is not found!");
         }
 
         [JwtAuthentication]
@@ -52,7 +53,7 @@ namespace Server.Controllers
         {
             if (!(_service.Delete(id)))
             {
-                return BadRequest("Not found");
+                return Content(HttpStatusCode.BadRequest, "The user is not found!");
             }
             return Ok();
         }

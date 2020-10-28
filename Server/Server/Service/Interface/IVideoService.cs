@@ -9,6 +9,6 @@ namespace Server.Service.Interface
 {
     public interface IVideoService
     {
-        Video Insert();
+        Video Insert(Video video);
     }
 }

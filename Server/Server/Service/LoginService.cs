@@ -1,10 +1,16 @@
-﻿using Server.Helper.AutorizationHelper;
+﻿using Server.DTO;
+using Server.Helper.AutorizationHelper;
+using Server.Helper.Exeptions.UserExeption;
+using Server.Models;
 using Server.Repository.Interface;
 using Server.Service.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Security.Claims;
 using System.Web;
+using System.Web.Http;
 
 namespace Server.Service
 {
@@ -17,25 +23,24 @@ namespace Server.Service
             _repository = repository;
         }
 
-        public bool CheckUser(string email, string password)
+        public LoginDataDTO Login(string email, string password)
         {
-            if (_repository.Login(email, password) != null)
+            try
             {
-                return true;
+                LoginDataDTO loginUser = _repository.Login(email, password);
+
+                if (loginUser != null)
+                {
+                    loginUser.Token = TokenMenager.GenerateToken(loginUser.Id, loginUser.Username);
+                }
+
+                throw new LoginExeption();
             }
-
-            return false;
-        }
-
-        public string Login(string email, string password)
-        {
-            string token = string.Empty;
-            if (CheckUser(email, password))
+            catch (Exception ex)
             {
-                var user = _repository.Login(email, password);
-                token = TokenMenager.GenerateToken(user.Id, user.Username);
+                System.Diagnostics.Debug.WriteLine("Exeption" + ex.Message.ToString());
+                return null;
             }
-            return token;
         }
     }
 }

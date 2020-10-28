@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
+using System.Web;
 using System.Web.Http;
 
 namespace Server.Controllers
@@ -19,18 +21,18 @@ namespace Server.Controllers
         {
             _service = service;
         }
-        [JwtAuthentication]
+        [AllowAnonymous]
         public IEnumerable<CommentDTO> GetAllCommentsBySongId(int videoId)
         {
             return _service.GetAllCommentsByVideoId(videoId);
         }
 
-        [JwtAuthentication]
+        [JwtAuthentication]        
         public IHttpActionResult Post(Comment comment)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return Content(HttpStatusCode.BadRequest, "Input data is not valid");
             }
 
             comment = _service.Insert(comment);
@@ -42,12 +44,12 @@ namespace Server.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return Content(HttpStatusCode.BadRequest, "Input data is not valid");
             }
 
             if (_service.Update(id, comment) == null)
             {
-                return BadRequest("Not found");
+                return Content(HttpStatusCode.BadRequest, "Comment is not found!");
             }
             return Ok();
 
@@ -58,7 +60,7 @@ namespace Server.Controllers
         {
             if (!(_service.Delete(id)))
             {
-                return BadRequest("Not found");
+                return Content(HttpStatusCode.BadRequest, "Comment is not found!");
             }
             return Ok();
         }
