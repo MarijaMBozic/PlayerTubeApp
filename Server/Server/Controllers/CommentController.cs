@@ -22,9 +22,15 @@ namespace Server.Controllers
             _service = service;
         }
         [AllowAnonymous]
-        public IEnumerable<CommentDTO> GetAllCommentsBySongId(int videoId)
+        public IEnumerable<CommentDTO> GetAllCommentsByVideoId(int videoId)
         {
             return _service.GetAllCommentsByVideoId(videoId);
+        }
+
+        [AllowAnonymous]
+        public IEnumerable<CommentDTO> Get_AllCommentsByVideoIdAndParentComment(int videoId, int parentCommentId)
+        {
+            return _service.Get_AllCommentsByVideoIdAndParentComment(videoId, parentCommentId);
         }
 
         [JwtAuthentication]        
@@ -61,7 +67,6 @@ namespace Server.Controllers
                 });
             }
             return Ok();
-
         }
 
         [JwtAuthentication]
@@ -72,6 +77,20 @@ namespace Server.Controllers
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound)
                 {
                     Content = new StringContent(string.Format("The user is not found!!")),
+                });
+            }
+            return Ok();
+        }
+
+        [JwtAuthentication]
+        [Route("api/Like")]
+        public IHttpActionResult LikeComment(int commentId, bool like)
+        {
+            if (!(_service.Like(commentId, like)))
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound)
+                {
+                    Content = new StringContent(string.Format("The video is not found!!")),
                 });
             }
             return Ok();

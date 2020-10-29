@@ -34,6 +34,21 @@ namespace Server.Service
             }
         }
 
+        public IEnumerable<CommentDTO> Get_AllCommentsByVideoIdAndParentComment(int videoId, int parentCommentId)
+        {
+            try
+            {
+                var comments = _repository.Get_AllCommentsByVideoIdAndParentComment(videoId, parentCommentId);
+
+                return comments;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exeption" + ex.Message.ToString());
+                return null;
+            }
+        }
+
         public Comment Insert(Comment comment)
         {
             try
@@ -99,5 +114,33 @@ namespace Server.Service
                 return false;
             }
         }
+
+        public bool Like(int commentId, bool like)
+        {
+            var identity = HttpContext.Current.User.Identity as ClaimsIdentity;
+            if (identity == null)
+            {
+                return false;
+            }
+
+            var userId = int.Parse(identity.Name);
+
+            var comment = _repository.GetCommentById(commentId);
+            if (comment.UserId == userId)
+            {
+                return false;
+            }
+
+            try
+            {
+                _repository.Like(userId, commentId, like);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exeption" + ex.Message.ToString());
+                return false;
+            }
+        }        
     }
 }

@@ -71,7 +71,7 @@ namespace Server.Repository
                 {
                     using (SqlCommand cmd = conn.CreateCommand())
                     {
-                        cmd.CommandText = "Get_AllCommentsBySongId";
+                        cmd.CommandText = "Get_AllCommentsByVideoId";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@VideoId", videoId);
                         SqlDataAdapter adapter = new SqlDataAdapter();
@@ -87,7 +87,9 @@ namespace Server.Repository
                                 Content = row[1].ToString(),
                                 CreateDate = DateTime.Parse(row[2].ToString()),                               
                                 Username = row[3].ToString(),
-                                ParentComment = int.Parse(row[4].ToString())
+                                ParentComment = int.Parse(row[4].ToString()),
+                                CommentLikes = int.Parse(row[5].ToString()),
+                                Unlikes = int.Parse(row[6].ToString())
                             };
                             commentList.Add(comment);
                         }
@@ -103,6 +105,54 @@ namespace Server.Repository
                     conn.Close();
                 }
 
+            }
+        }
+
+        public IEnumerable<CommentDTO> Get_AllCommentsByVideoIdAndParentComment(int videoId, int parentCommentId)
+        {
+            List<CommentDTO> commentList = new List<CommentDTO>();
+
+            using (SqlConnection conn = ConnectionHelper.GetNewConnection())
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "Get_AllCommentsByVideoIdAndParentComment";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@VideoId", videoId);
+                        cmd.Parameters.AddWithValue("@ParentComment", parentCommentId);
+                        SqlDataAdapter adapter = new SqlDataAdapter();
+                        adapter.SelectCommand = cmd;
+                        DataTable dt = new DataTable();
+                        adapter.Fill(dt);
+
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            CommentDTO comment = new CommentDTO
+                            {
+                                Id = int.Parse(row[0].ToString()),
+                                Content = row[1].ToString(),
+                                CreateDate = DateTime.Parse(row[2].ToString()),
+                                Username = row[3].ToString(),
+                                ParentComment = int.Parse(row[4].ToString()),
+                                CommentLikes = int.Parse(row[5].ToString()),
+                                Unlikes = int.Parse(row[6].ToString())
+                            };
+                            commentList.Add(comment);
+                        }
+                        return commentList;
+                    }
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    conn.Close();
+                }
             }
         }
 
@@ -194,5 +244,33 @@ namespace Server.Repository
                 }
             }
         }
-    }
+
+        public void Like(int userId, int commentId, bool like)
+        {
+            using (SqlConnection conn = ConnectionHelper.GetNewConnection())
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "Like_Comment";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@UserId", userId);
+                        cmd.Parameters.AddWithValue("@CommentId", commentId);
+                        cmd.Parameters.AddWithValue("@IsLiked", like);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+    }  
 }

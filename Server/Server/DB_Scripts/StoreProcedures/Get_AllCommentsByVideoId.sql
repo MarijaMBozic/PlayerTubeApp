@@ -5,7 +5,6 @@ select  tblComment.Id, Content, CreateDate, Username, ParentComment, NumberOfLik
 right join tblUser on tblComment.UserId=tblUser.Id
 left join (SELECT COUNT(CASE WHEN IsLiked = 1 THEN 1 END) NumberOfLikes,
                   COUNT(CASE WHEN IsLiked = 0 THEN 1 END) NumberOfUnlikes, CommentId FROM tblCommentLikes 
-				  where IsDeleted=0
 	              group by CommentId) as LikesCount
 on tblComment.Id=LikesCount.CommentId
 where VideoId=@VideoId and tblComment.IsDeleted=0

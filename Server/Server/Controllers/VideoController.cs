@@ -84,5 +84,48 @@ namespace Server.Controllers
             }
             return Ok();
         }
+
+        [JwtAuthentication]
+        public IHttpActionResult Put(int id, Video video)
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest)
+                {
+                    Content = new StringContent(string.Format("Input data is not valid")),
+                });
+            }
+
+            if (!(_service.Update(id, video)))
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound)
+                {
+                    Content = new StringContent(string.Format("The video is not found!!")),
+                });
+            }
+            return Ok();
+        }
+
+        [AllowAnonymous]
+        [Route("api/Views")]
+        public IHttpActionResult PutVideo(int id, int numberOfViews)
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest)
+                {
+                    Content = new StringContent(string.Format("Input data is not valid")),
+                });
+            }
+
+            if (!(_service.View(id, numberOfViews)))
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound)
+                {
+                    Content = new StringContent(string.Format("The video is not found!!")),
+                });
+            }
+            return Ok();
+        }
     }
 }

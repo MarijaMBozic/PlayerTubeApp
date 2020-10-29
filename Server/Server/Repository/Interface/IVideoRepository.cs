@@ -15,6 +15,7 @@ namespace Server.Repository.Interface
         VideoDTO GetVideoById(int videoId);
         int Insert(Video video);
         void Update(Video video);
+        void View(int numberOfViews, int videoId);
         void Like(int userId, int videoId, bool like);
         bool Delete(int id);
     }

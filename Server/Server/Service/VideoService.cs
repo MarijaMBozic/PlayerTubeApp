@@ -23,7 +23,43 @@ namespace Server.Service
         {
             _repository = repository;
         }
-        
+
+
+        public VideoDTO GetVideoById(int id)
+        {
+            return _repository.GetVideoById(id);
+        }
+
+        public IEnumerable<VideoDTO> GetAllVideosByUserId(int userId)
+        {
+            try
+            {
+                var videos = _repository.GetAllVideoByUserId(userId);
+
+                return videos;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exeption" + ex.Message.ToString());
+                return null;
+            }
+        }
+
+        public IEnumerable<VideoDTO> GetAllVideos()
+        {
+            try
+            {
+                var videos = _repository.GetAllVideos();
+
+                return videos;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exeption" + ex.Message.ToString());
+                return null;
+            }
+        }
+
         public Video Insert(MultipartFormDataStreamProvider video, string root)
         {
             var videoPath = string.Empty;
@@ -103,37 +139,7 @@ namespace Server.Service
                 File.Delete(filePath);
             }
         }
-
-        public IEnumerable<VideoDTO> GetAllVideosByUserId(int userId)
-        {
-            try
-            {
-                var videos = _repository.GetAllVideoByUserId(userId);
-
-                return videos;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("Exeption" + ex.Message.ToString());
-                return null;
-            }
-        }
-
-        public IEnumerable<VideoDTO> GetAllVideos()
-        {
-            try
-            {
-                var videos = _repository.GetAllVideos();
-
-                return videos;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("Exeption" + ex.Message.ToString());
-                return null;
-            }
-        }
-
+               
         public bool Like(int videoId, bool like)
         {        
             var identity = HttpContext.Current.User.Identity as ClaimsIdentity;
@@ -161,5 +167,44 @@ namespace Server.Service
                 return false;
             }
         }
+
+        public bool Update(int id, Video video)
+        {
+            if (id != video.Id)
+            {
+                return false;
+            }
+
+            try
+            {
+                _repository.Update(video);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exeption" + ex.Message.ToString());
+                return false;
+            }
+        }
+
+        public bool View(int videoId, int numberOfViews)
+        {
+            VideoDTO video = _repository.GetVideoById(videoId);
+            if (video==null)
+            {
+                return false;
+            }
+
+            try
+            {
+                _repository.View(video.Id, numberOfViews);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exeption" + ex.Message.ToString());
+                return false;
+            }
+        }        
     }
 }

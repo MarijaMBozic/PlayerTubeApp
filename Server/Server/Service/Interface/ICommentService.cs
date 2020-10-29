@@ -11,8 +11,10 @@ namespace Server.Service.Interface
     public interface ICommentService
     {
         IEnumerable<CommentDTO> GetAllCommentsByVideoId(int videoId);
+        IEnumerable<CommentDTO> Get_AllCommentsByVideoIdAndParentComment(int videoId, int parentCommentId);
         Comment Insert(Comment comment);
         Comment Update(int id, Comment comment);
         bool Delete(int id);
+        bool Like(int commentId, bool like);
     }
 }

@@ -38,9 +38,11 @@ namespace Server.Repository
                                 Name = row[1].ToString(),
                                 Views = int.Parse(row[2].ToString()),
                                 Path = row[3].ToString(),
-                                Description = row[4].ToString(),                                
+                                Description = row[4].ToString(),
                                 Username = row[5].ToString(),
-                                UserId = int.Parse(row[6].ToString())
+                                UserId = int.Parse(row[6].ToString()),
+                                VideoLikes = int.Parse(row[7].ToString()),
+                                Unlikes = int.Parse(row[8].ToString())
                             };
                             videoList.Add(video);
                         }
@@ -84,9 +86,11 @@ namespace Server.Repository
                                 Name = row[1].ToString(),
                                 Views = int.Parse(row[2].ToString()),
                                 Path = row[3].ToString(),
-                                Description = row[4].ToString(),                                
+                                Description = row[4].ToString(),
                                 Username = row[5].ToString(),
-                                UserId = int.Parse(row[6].ToString())
+                                UserId = int.Parse(row[6].ToString()),
+                                VideoLikes= int.Parse(row[7].ToString()),
+                                Unlikes= int.Parse(row[8].ToString())
                             };
                             videoList.Add(video);
                         }
@@ -130,9 +134,9 @@ namespace Server.Repository
                                 Name = row[1].ToString(),
                                 Views = int.Parse(row[2].ToString()),
                                 Path = row[3].ToString(),
-                                Description = row[4].ToString(),                               
-                                Username = row[5].ToString(), 
-                                UserId= int.Parse(row[6].ToString())
+                                Description = row[4].ToString(),
+                                Username = row[5].ToString(),
+                                UserId = int.Parse(row[6].ToString())
                             };
                             response = video;
                         }
@@ -188,7 +192,30 @@ namespace Server.Repository
 
         public void Update(Video video)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = ConnectionHelper.GetNewConnection())
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "Update_Video";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Id", video.Id);
+                        cmd.Parameters.AddWithValue("@Name", video.Name);
+                        cmd.Parameters.AddWithValue("@Description", video.Description);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
         }
 
         public bool Delete(int id)
@@ -245,5 +272,69 @@ namespace Server.Repository
                 }
             }
         }
+
+        public void View(int numberOfViews, int videoId)
+        {
+            using (SqlConnection conn = ConnectionHelper.GetNewConnection())
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "Update_Video";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Id", videoId);
+                        cmd.Parameters.AddWithValue("@Views", numberOfViews);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        // public void GetNumerOfLikesByVideoId(int videoId, int numberOfLikes, int numberOfUnlikes)
+        //{
+        //    using (SqlConnection conn = ConnectionHelper.GetNewConnection())
+        //    {
+        //        conn.Open();
+        //        try
+        //        {
+        //            using (SqlCommand cmd = conn.CreateCommand())
+        //            {
+        //                cmd.CommandText = "NumberOfLikesByVideoId";
+        //                cmd.CommandType = CommandType.StoredProcedure;
+        //                cmd.Parameters.AddWithValue("@VideoId", videoId);
+        //                SqlDataAdapter adapter = new SqlDataAdapter();
+        //                adapter.SelectCommand = cmd;
+        //                DataTable dt = new DataTable();
+        //                adapter.Fill(dt);
+
+        //                foreach (DataRow row in dt.Rows)
+        //                {
+        //                    numberOfLikes = int.Parse(row[0].ToString());
+        //                    numberOfUnlikes = int.Parse(row[2].ToString());
+        //                }
+        //            }
+        //        }
+        //        catch
+        //        {
+        //            throw;
+        //        }
+        //        finally
+        //        {
+        //            conn.Close();
+        //        }
+
+        //    }
+
+        // }
     }
 }
