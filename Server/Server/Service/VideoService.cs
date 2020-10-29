@@ -12,6 +12,7 @@ using System.Web.Http;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using Server.DTO;
+using Server.Helper;
 
 namespace Server.Service
 {
@@ -68,8 +69,9 @@ namespace Server.Service
                 foreach (var file in video.FileData)
                 {
                     var name = file.Headers.ContentDisposition.FileName;
+                    var randomNameExtension = RandomGenerateString.RandomStringName();
 
-                    name = name.Trim('"');
+                    name = randomNameExtension+name.Trim('"');
 
                     var localVideoName = file.LocalFileName;
                     videoPath = Path.Combine(root, name);
