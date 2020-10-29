@@ -39,11 +39,10 @@ namespace Server.Repository
                             {
                                 Id = int.Parse(row[0].ToString()),
                                 Content = row[1].ToString(),
-                                CreateDate = DateTime.Parse(row[2].ToString()),
-                                CommentLikes = int.Parse(row[3].ToString()),
-                                Unlikes = int.Parse(row[4].ToString()),
-                                Username = row[5].ToString(), 
-                                UserId= int.Parse(row[6].ToString())
+                                CreateDate = DateTime.Parse(row[2].ToString()),                                
+                                Username = row[3].ToString(), 
+                                UserId= int.Parse(row[4].ToString()), 
+                                ParentComment=int.Parse(row[5].ToString())
                             };
                             response = comment;
                         }
@@ -63,7 +62,7 @@ namespace Server.Repository
 
         public IEnumerable<CommentDTO> GetAllCommentsByVideoId(int videoId)
         {
-            List<CommentDTO> userList = new List<CommentDTO>();
+            List<CommentDTO> commentList = new List<CommentDTO>();
 
             using (SqlConnection conn = ConnectionHelper.GetNewConnection())
             {
@@ -86,14 +85,13 @@ namespace Server.Repository
                             {
                                 Id = int.Parse(row[0].ToString()),
                                 Content = row[1].ToString(),
-                                CreateDate = DateTime.Parse(row[2].ToString()),
-                                CommentLikes = int.Parse(row[3].ToString()),
-                                Unlikes = int.Parse(row[4].ToString()),
-                                Username = row[5].ToString()
+                                CreateDate = DateTime.Parse(row[2].ToString()),                               
+                                Username = row[3].ToString(),
+                                ParentComment = int.Parse(row[4].ToString())
                             };
-                            userList.Add(comment);
+                            commentList.Add(comment);
                         }
-                        return userList;
+                        return commentList;
                     }
                 }
                 catch
@@ -123,6 +121,7 @@ namespace Server.Repository
                         cmd.Parameters.AddWithValue("@Content", comment.Content);
                         cmd.Parameters.AddWithValue("@UserId", comment.UserId);
                         cmd.Parameters.AddWithValue("@VideoId", comment.VideoId);
+                        cmd.Parameters.AddWithValue("@VideoId", comment.ParentComment);
                         SqlDataReader reader = cmd.ExecuteReader();
 
                         if (reader.Read())

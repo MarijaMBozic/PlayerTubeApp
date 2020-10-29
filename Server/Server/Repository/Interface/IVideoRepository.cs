@@ -1,4 +1,5 @@
-﻿using Server.Models;
+﻿using Server.DTO;
+using Server.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,12 @@ namespace Server.Repository.Interface
 {
     public interface IVideoRepository
     {
-        IEnumerable<Video> GetAllVideo();
-        IEnumerable<Video> GetAllVideoByUserId(int userId);
-        Video GetVideoById(int songId);
-        int Insert(Video song);
-        void Update(Video song);
-        void Delete(Video song);
+        IEnumerable<VideoDTO> GetAllVideos();
+        IEnumerable<VideoDTO> GetAllVideoByUserId(int userId);
+        VideoDTO GetVideoById(int videoId);
+        int Insert(Video video);
+        void Update(Video video);
+        void Like(int userId, int videoId, bool like);
+        bool Delete(int id);
     }
 }

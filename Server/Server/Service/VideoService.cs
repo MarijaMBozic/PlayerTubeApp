@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Net.Http.Headers;
+using System.Security.Claims;
+using Server.DTO;
 
 namespace Server.Service
 {
@@ -21,57 +23,142 @@ namespace Server.Service
         {
             _repository = repository;
         }
-
-
-        public Video Insert(Video video)
+        
+        public Video Insert(MultipartFormDataStreamProvider video, string root)
         {
-
-
-            //var ctx = HttpContext.Current;
-            //var root = AppDomain.CurrentDomain.BaseDirectory + @"Upload\Videos";
-            //var provider = new MultipartFormDataStreamProvider(root);
-            //var videoPath = string.Empty;
-
-            //try
-            //{
-            //     Request.Content.ReadAsMultipartAsync(provider);
-
-            //    foreach (var file in provider.FileData)
-            //    {
-            //        var name = file.Headers.ContentDisposition.FileName;
-
-            //        name = name.Trim('"');
-
-            //        var localImgName = file.LocalFileName;
-            //        videoPath = Path.Combine(root, name);
-            //        File.Move(localImgName, videoPath);
-            //    }
-            //}
-            //catch
-            //{
-            //    throw;
-            //}
-
-            //Video video = new Video
-            //{
-            //    Name = HttpContext.Current.Request.Form["Name"],
-            //    Path = videoPath,
-            //    Description = HttpContext.Current.Request.Form["Description"],
-            //    UserId = int.Parse(HttpContext.Current.Request.Form["UserId"]),               
-            //};
-
+            var videoPath = string.Empty;
             try
             {
-                if ((video.Id = _repository.Insert(video)) != 0)
+                foreach (var file in video.FileData)
                 {
-                    return video;
+                    var name = file.Headers.ContentDisposition.FileName;
+
+                    name = name.Trim('"');
+
+                    var localVideoName = file.LocalFileName;
+                    videoPath = Path.Combine(root, name);
+                    File.Move(localVideoName, videoPath);
                 }
-                return null;
+
+                var identity = HttpContext.Current.User.Identity as ClaimsIdentity;
+
+                Video newVideo = new Video
+                {
+                    Name = HttpContext.Current.Request.Form["Name"],
+                    Description = HttpContext.Current.Request.Form["Description"],
+                    UserId = int.Parse(identity.Name),
+                    Path = videoPath,
+                };
+
+                _repository.Insert(newVideo);
+
+                return newVideo;
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine("Exeption" + ex.Message.ToString());
                 return null;
+            }
+        }
+
+        public bool Delete(int id)
+        {
+            var video = _repository.GetVideoById(id);
+
+            var identity = HttpContext.Current.User.Identity as ClaimsIdentity;
+            if (identity == null)
+            {
+                return false;
+            }
+
+            if (video == null)
+            {
+                return false;
+            }
+            try
+            {
+                if (identity.Name == video.UserId.ToString())
+                {
+                    if(_repository.Delete(video.Id))
+                    {
+                        DeleteVideoFromFile(video.Path);
+                        return true;
+                    }                   
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exeption" + ex.Message.ToString());
+                return false;
+            }
+        }
+
+        public void DeleteVideoFromFile(string path)
+        {
+            var filePath = path;     
+
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+        }
+
+        public IEnumerable<VideoDTO> GetAllVideosByUserId(int userId)
+        {
+            try
+            {
+                var videos = _repository.GetAllVideoByUserId(userId);
+
+                return videos;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exeption" + ex.Message.ToString());
+                return null;
+            }
+        }
+
+        public IEnumerable<VideoDTO> GetAllVideos()
+        {
+            try
+            {
+                var videos = _repository.GetAllVideos();
+
+                return videos;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exeption" + ex.Message.ToString());
+                return null;
+            }
+        }
+
+        public bool Like(int videoId, bool like)
+        {        
+            var identity = HttpContext.Current.User.Identity as ClaimsIdentity;
+            if (identity == null)
+            {
+                return false;
+            }
+
+            var userId = int.Parse(identity.Name);
+
+            var video = _repository.GetVideoById(videoId);
+            if(video.UserId== userId)
+            {
+                return false;
+            }
+
+            try
+            {
+                _repository.Like(userId, videoId, like);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exeption" + ex.Message.ToString());
+                return false;
             }
         }
     }

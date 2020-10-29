@@ -1,4 +1,5 @@
 ﻿using Server.DTO;
+using Server.Helper.Exeptions;
 using Server.Models;
 using Server.Service.Interface;
 using System;
@@ -24,11 +25,16 @@ namespace Server.Controllers
         public IHttpActionResult Post(User user)
         {
             LoginDataDTO loginUser = _service.Login(user.Email, user.Password);
-            if (loginUser != null)
+
+            if (loginUser == null)
             {
-                return Ok(loginUser);
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound)
+                {
+                    Content = new StringContent(string.Format("Invalid email or password!")),
+                    ReasonPhrase = "User Not Found"
+                });
             }
-           return Content(HttpStatusCode.BadRequest, "Invalid credentials please try again!");            
+            return Ok(loginUser);                              
         }
     }
 }

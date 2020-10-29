@@ -31,8 +31,11 @@ namespace Server.Controllers
         public IHttpActionResult Post(Comment comment)
         {
             if (!ModelState.IsValid)
-            {
-                return Content(HttpStatusCode.BadRequest, "Input data is not valid");
+            {                
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest)
+                {
+                    Content = new StringContent(string.Format("Input data is not valid")),
+                });
             }
 
             comment = _service.Insert(comment);
@@ -44,12 +47,18 @@ namespace Server.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return Content(HttpStatusCode.BadRequest, "Input data is not valid");
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest)
+                {
+                    Content = new StringContent(string.Format("Input data is not valid")),
+                });
             }
 
             if (_service.Update(id, comment) == null)
             {
-                return Content(HttpStatusCode.BadRequest, "Comment is not found!");
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound)
+                {
+                    Content = new StringContent(string.Format("The comment is not found!!")),
+                });
             }
             return Ok();
 
@@ -60,7 +69,10 @@ namespace Server.Controllers
         {
             if (!(_service.Delete(id)))
             {
-                return Content(HttpStatusCode.BadRequest, "Comment is not found!");
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound)
+                {
+                    Content = new StringContent(string.Format("The user is not found!!")),
+                });
             }
             return Ok();
         }

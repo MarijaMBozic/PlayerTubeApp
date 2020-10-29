@@ -1,4 +1,5 @@
-﻿using Server.Repository;
+﻿using Server.Helper.Exeptions;
+using Server.Repository;
 using Server.Repository.Interface;
 using Server.Resolver;
 using Server.Service;

@@ -25,20 +25,15 @@ namespace Server.Service
 
         public LoginDataDTO Login(string email, string password)
         {
+            LoginDataDTO loginUser = new LoginDataDTO();
             try
             {
-                LoginDataDTO loginUser = _repository.Login(email, password);
-
+                loginUser = _repository.Login(email, password);
                 if (loginUser != null)
                 {
                     loginUser.Token = TokenMenager.GenerateToken(loginUser.Id, loginUser.Username);
-                }
-                else
-                {
-                    throw new LoginExeption();
-                }
-
-                return loginUser;
+                }               
+                return loginUser;                  
             }
             catch (Exception ex)
             {

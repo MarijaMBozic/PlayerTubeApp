@@ -6,9 +6,9 @@ using System.Web;
 
 namespace Server.Helper.Exeptions.UserExeption
 {
-    public class LoginExeption : CustomExeptionBase
+    public class LoginExeption : Exception
     {
-        public LoginExeption() : base("Invalid credentials please try again")
+        public LoginExeption() : base()
         {
         }
 
@@ -18,6 +18,5 @@ namespace Server.Helper.Exeptions.UserExeption
         public LoginExeption(string message, Exception innerException) : base(message, innerException)
         {
         }
-        public override HttpStatusCode StatusCode { get; set; } = HttpStatusCode.BadRequest;
     }
 }

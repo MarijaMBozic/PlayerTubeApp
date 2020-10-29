@@ -1,4 +1,5 @@
-﻿using Server.Helper;
+﻿using Server.DTO;
+using Server.Helper;
 using Server.Models;
 using Server.Repository.Interface;
 using System;
@@ -12,19 +13,141 @@ namespace Server.Repository
 {
     public class VideoRepository : IVideoRepository
     {
-        public IEnumerable<Video> GetAllVideo()
+        public IEnumerable<VideoDTO> GetAllVideos()
         {
-            throw new NotImplementedException();
+            List<VideoDTO> videoList = new List<VideoDTO>();
+            using (SqlConnection conn = ConnectionHelper.GetNewConnection())
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "Get_AllVideos";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        SqlDataAdapter adapter = new SqlDataAdapter();
+                        adapter.SelectCommand = cmd;
+                        DataTable dt = new DataTable();
+                        adapter.Fill(dt);
+
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            VideoDTO video = new VideoDTO
+                            {
+                                Id = int.Parse(row[0].ToString()),
+                                Name = row[1].ToString(),
+                                Views = int.Parse(row[2].ToString()),
+                                Path = row[3].ToString(),
+                                Description = row[4].ToString(),                                
+                                Username = row[5].ToString(),
+                                UserId = int.Parse(row[6].ToString())
+                            };
+                            videoList.Add(video);
+                        }
+                        return videoList;
+                    }
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
         }
 
-        public IEnumerable<Video> GetAllVideoByUserId(int userId)
+        public IEnumerable<VideoDTO> GetAllVideoByUserId(int userId)
         {
-            throw new NotImplementedException();
+            List<VideoDTO> videoList = new List<VideoDTO>();
+            using (SqlConnection conn = ConnectionHelper.GetNewConnection())
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "Get_AllVideoByUserId";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@UserId", userId);
+                        SqlDataAdapter adapter = new SqlDataAdapter();
+                        adapter.SelectCommand = cmd;
+                        DataTable dt = new DataTable();
+                        adapter.Fill(dt);
+
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            VideoDTO video = new VideoDTO
+                            {
+                                Id = int.Parse(row[0].ToString()),
+                                Name = row[1].ToString(),
+                                Views = int.Parse(row[2].ToString()),
+                                Path = row[3].ToString(),
+                                Description = row[4].ToString(),                                
+                                Username = row[5].ToString(),
+                                UserId = int.Parse(row[6].ToString())
+                            };
+                            videoList.Add(video);
+                        }
+                        return videoList;
+                    }
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
         }
 
-        public Video GetVideoById(int songId)
+        public VideoDTO GetVideoById(int videoId)
         {
-            throw new NotImplementedException();
+            VideoDTO response = null;
+            using (SqlConnection conn = ConnectionHelper.GetNewConnection())
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "Get_VideoById";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Id", videoId);
+                        SqlDataAdapter adapter = new SqlDataAdapter();
+                        adapter.SelectCommand = cmd;
+                        DataTable dt = new DataTable();
+                        adapter.Fill(dt);
+
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            VideoDTO video = new VideoDTO
+                            {
+                                Id = int.Parse(row[0].ToString()),
+                                Name = row[1].ToString(),
+                                Views = int.Parse(row[2].ToString()),
+                                Path = row[3].ToString(),
+                                Description = row[4].ToString(),                               
+                                Username = row[5].ToString(), 
+                                UserId= int.Parse(row[6].ToString())
+                            };
+                            response = video;
+                        }
+                        return response;
+                    }
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
         }
 
         public int Insert(Video video)
@@ -63,14 +186,64 @@ namespace Server.Repository
             return videoId;
         }
 
-        public void Update(Video song)
+        public void Update(Video video)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(Video song)
+        public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            using (SqlConnection conn = ConnectionHelper.GetNewConnection())
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "Delete_Video";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Id", id);
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void Like(int userId, int videoId, bool like)
+        {
+            using (SqlConnection conn = ConnectionHelper.GetNewConnection())
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "Like_Video";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@UserId", userId);
+                        cmd.Parameters.AddWithValue("@VideoId", videoId);
+                        cmd.Parameters.AddWithValue("@IsLiked", like);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
         }
     }
 }

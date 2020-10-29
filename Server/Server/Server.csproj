@@ -296,6 +296,7 @@
     <Compile Include="DTO\CommentDTO.cs" />
     <Compile Include="DTO\LoginDataDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
+    <Compile Include="DTO\VideoDTO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -305,7 +306,7 @@
     <Compile Include="Helper\AutorizationHelper\JwtAuthenticationAttribute.cs" />
     <Compile Include="Helper\AutorizationHelper\TokenMenager.cs" />
     <Compile Include="Helper\ConnectionHelper.cs" />
-    <Compile Include="Helper\Exeptions\CustomExeptionBase.cs" />
+    <Compile Include="Helper\Exeptions\CustomExeptionFilter.cs" />
     <Compile Include="Helper\Exeptions\UserExeption\LoginExeption.cs" />
     <Compile Include="Helper\HashPasswordHelper.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -341,13 +342,19 @@
     <Content Include="DB_Scripts\StoreProcedures\Check_Username.sql" />
     <Content Include="DB_Scripts\StoreProcedures\Delete_Comment.sql" />
     <Content Include="DB_Scripts\StoreProcedures\Delete_User.sql" />
+    <Content Include="DB_Scripts\StoreProcedures\Delete_Video.sql" />
     <Content Include="DB_Scripts\StoreProcedures\Get_AllCommentsBySongId.sql" />
+    <Content Include="DB_Scripts\StoreProcedures\Get_AllVideoByUserId.sql" />
+    <Content Include="DB_Scripts\StoreProcedures\Get_AllVideos.sql" />
     <Content Include="DB_Scripts\StoreProcedures\Get_CommentsById.sql" />
     <Content Include="DB_Scripts\StoreProcedures\Get_LoginData.sql" />
     <Content Include="DB_Scripts\StoreProcedures\Get_UserById.sql" />
+    <Content Include="DB_Scripts\StoreProcedures\Get_VideoById.sql" />
     <Content Include="DB_Scripts\StoreProcedures\Insert_NewComment.sql" />
     <Content Include="DB_Scripts\StoreProcedures\Insert_NewUser.sql" />
     <Content Include="DB_Scripts\StoreProcedures\Insert_NewVideo.sql" />
+    <Content Include="DB_Scripts\StoreProcedures\Like_Comment.sql" />
+    <Content Include="DB_Scripts\StoreProcedures\Like_Video.sql" />
     <Content Include="DB_Scripts\StoreProcedures\Update_Comment.sql" />
     <Content Include="DB_Scripts\StoreProcedures\Update_User.sql" />
     <Content Include="favicon.ico" />

@@ -12,12 +12,11 @@ namespace Server.Models
         [StringLength(100)]
         public string Content { get; set; }
         public DateTime CreateDate { get; set; } = DateTime.Now.Date;
-        public int CommentLikes { get; set; }
-        public int Unlikes { get; set; }
         [Required]
         public int UserId { get; set; }
         [Required]
         public int VideoId { get; set; }
         public bool IsDeleted { get; set; }
+        public int ParentComment { get; set; }
     }
 }

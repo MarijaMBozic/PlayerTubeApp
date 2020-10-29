@@ -21,12 +21,14 @@ namespace Server.Controllers
         }
 
         [AllowAnonymous]
-        [Route("api/Registration")]
         public IHttpActionResult Post(User user)
         {
             if (!ModelState.IsValid)
             {
-                return Content(HttpStatusCode.BadRequest, "Registration data is not in valid format!");
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest)
+                {
+                    Content = new StringContent(string.Format("Invalid registration info!")),
+                });                
             }
 
             user = _service.Insert(user);
@@ -38,14 +40,23 @@ namespace Server.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return Content(HttpStatusCode.BadRequest, "Password is not in valid format!");
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest)
+                {
+                    Content = new StringContent(string.Format("Password is not in valid format")),
+                });               
             }
 
             if (_service.Update(id, user))
             {
                 return Ok();
-            }            
-            return Content(HttpStatusCode.BadRequest, "The user is not found!");
+            }
+            else
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest)
+                {
+                    Content = new StringContent(string.Format("The user is not found!!")),
+                });
+            }           
         }
 
         [JwtAuthentication]
@@ -53,7 +64,10 @@ namespace Server.Controllers
         {
             if (!(_service.Delete(id)))
             {
-                return Content(HttpStatusCode.BadRequest, "The user is not found!");
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound)
+                {
+                    Content = new StringContent(string.Format("The user is not found!!")),
+                });
             }
             return Ok();
         }

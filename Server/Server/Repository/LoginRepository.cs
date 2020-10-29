@@ -1,5 +1,6 @@
 ﻿using Server.DTO;
 using Server.Helper;
+using Server.Helper.Exeptions.UserExeption;
 using Server.Repository.Interface;
 using System;
 using System.Collections.Generic;

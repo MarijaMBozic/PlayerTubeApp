@@ -1,4 +1,5 @@
-﻿using Server.Helper.AutorizationHelper;
+﻿using Server.DTO;
+using Server.Helper.AutorizationHelper;
 using Server.Models;
 using Server.Service.Interface;
 using System;
@@ -25,52 +26,63 @@ namespace Server.Controllers
             _service = service;
         }
 
+        [AllowAnonymous]
+        public IEnumerable<VideoDTO> GetAllVideos()
+        {
+            return _service.GetAllVideos();
+        }
+
+        [AllowAnonymous]
+        public IEnumerable<VideoDTO> GetAllVideosByUserId(int userId)
+        {
+            return _service.GetAllVideosByUserId(userId);
+        }
+
         [JwtAuthentication]
         public async Task<IHttpActionResult> Post()
         {
-            var ctx = HttpContext.Current;
             var root = AppDomain.CurrentDomain.BaseDirectory + @"Upload\Videos";
             var provider = new MultipartFormDataStreamProvider(root);
-            string videoPath = string.Empty;
 
-            try
+            await Request.Content.ReadAsMultipartAsync(provider);
+            Video video =_service.Insert(provider, root);
+
+            if (video==null)
             {
-                await Request.Content.ReadAsMultipartAsync(provider);
-
-                foreach (var file in provider.FileData)
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.BadRequest)
                 {
-                    var name = file.Headers.ContentDisposition.FileName;
-
-                    name = name.Trim('"');
-
-                    var localVideoName = file.LocalFileName;
-                    videoPath = Path.Combine(root, name);
-                    File.Move(localVideoName, videoPath);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.Out.WriteLine(ex.StackTrace);
+                    Content = new StringContent(string.Format("Invalid video data")),
+                });
             }
 
-            var identity = HttpContext.Current.User.Identity as ClaimsIdentity;
-           
-
-            Video video = new Video
-            {
-                Name = HttpContext.Current.Request.Form["Name"],                
-                Description = HttpContext.Current.Request.Form["Description"],
-                UserId = int.Parse(identity.Name),
-                Path = videoPath,
-            };
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            _service.Insert(video);
-            return CreatedAtRoute("DefaultApi", new { id = video.Id }, video);
+           return CreatedAtRoute("DefaultApi", new { id = video.Id }, video);
         }
-    }    
+
+        [JwtAuthentication]
+        public IHttpActionResult Delete(int id)
+        {
+            if (!(_service.Delete(id)))
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound)
+                {
+                    Content = new StringContent(string.Format("The video is not found!!")),
+                });
+            }
+            return Ok();
+        }
+
+        [JwtAuthentication]
+        [Route("api/Like")]
+        public IHttpActionResult LikeVideo(int videoId, bool like)
+        {
+            if (!(_service.Like(videoId, like)))
+            {
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound)
+                {
+                    Content = new StringContent(string.Format("The video is not found!!")),
+                });
+            }
+            return Ok();
+        }
+    }
 }

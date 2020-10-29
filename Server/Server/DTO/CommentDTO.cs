@@ -14,5 +14,6 @@ namespace Server.DTO
         public int Unlikes { get; set; }
         public string Username { get; set; }
         public int UserId { get; set; }
+        public int ParentComment { get; set; }
     }
 }
