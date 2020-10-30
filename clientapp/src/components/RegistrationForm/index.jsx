@@ -17,9 +17,7 @@ function RegistrationForm(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-            Registration(registrationData)
-        
+            Registration(registrationData)        
     }
 
     return ReactDOM.createPortal(

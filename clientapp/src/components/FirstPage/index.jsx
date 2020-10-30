@@ -1,5 +1,6 @@
 import React from 'react';
 import Login from './../Login/index';
+import PlayerVIdeo from './../PlayerVIdeo/index';
 
 function FirstPage(){
     return(
@@ -8,7 +9,7 @@ function FirstPage(){
                 <Login/>
             </div>
             <div>
-                PlayerVideo
+                <PlayerVIdeo/>
             </div>
             <div>
                 ListOfVideos

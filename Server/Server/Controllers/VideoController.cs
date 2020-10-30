@@ -134,5 +134,44 @@ namespace Server.Controllers
             }
             return Ok();
         }
+
+        [AllowAnonymous]
+        public HttpResponseMessage GetFileVideo(string path)
+        {
+
+            var result =
+                new HttpResponseMessage(HttpStatusCode.OK);
+
+            var fileName = Path.GetFileName(path);
+
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                result.StatusCode = HttpStatusCode.NotFound;
+            }
+            else
+            {
+                var fileBytes = File.ReadAllBytes(path);
+
+                var fileMemStream =
+                    new MemoryStream(fileBytes);
+
+                result.Content = new StreamContent(fileMemStream);
+
+                var headers = result.Content.Headers;
+
+                headers.ContentDisposition =
+                    new ContentDispositionHeaderValue("attachment");
+                headers.ContentDisposition.FileName = fileName;
+                var imgExt = fileName.Split('.');
+                var contentType = "video/" + imgExt[1];
+
+                headers.ContentType =
+                    new MediaTypeHeaderValue(contentType);
+
+                headers.ContentLength = fileMemStream.Length;
+            }
+
+            return result;
+        }
     }
 }
