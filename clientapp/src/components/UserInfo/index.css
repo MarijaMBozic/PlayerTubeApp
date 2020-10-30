@@ -1,0 +1,10 @@
+.userinfo_item{
+    float: right;
+    padding-right: 5%;
+       
+}
+
+.userinfo_item li{
+    display: inline;
+    margin-left: 5px;
+}

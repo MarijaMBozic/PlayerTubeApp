@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using Unity;
 using Unity.Lifetime;
 
@@ -18,6 +19,11 @@ namespace Server
     {
         public static void Register(HttpConfiguration config)
         {
+            // CORS
+            var
+            cors = new EnableCorsAttribute("*", "*", "*");
+            config.EnableCors(cors);
+            
             // Web API configuration and services
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/plain"));
             config.Filters.Add(new AuthorizeAttribute());
