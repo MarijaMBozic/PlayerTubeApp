@@ -12,6 +12,7 @@ namespace Server.Service.Interface
     public interface IVideoService
     {
         IEnumerable<VideoDTO> GetAllVideos();
+        VideoDTO GetVideoById(int videoId);
         IEnumerable<VideoDTO> GetAllVideosByUserId(int userId);
         Video Insert(MultipartFormDataStreamProvider video, string root);
         bool Update(int id, Video video);

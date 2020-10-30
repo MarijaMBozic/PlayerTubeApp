@@ -156,6 +156,81 @@ namespace Server.Repository
             }
         }
 
+        public IEnumerable<int> GetAllCommentsByParentId(int commentId)
+        {
+            List<int> listOfChiledCommentsId = new List<int>();
+            using (SqlConnection conn = ConnectionHelper.GetNewConnection())
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "Get_AllCommentsByParentId";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Id", commentId);
+                        SqlDataAdapter adapter = new SqlDataAdapter();
+                        adapter.SelectCommand = cmd;
+                        DataTable dt = new DataTable();
+                        adapter.Fill(dt);
+
+                        foreach (DataRow row in dt.Rows)
+                        {
+
+                            int Id = int.Parse(row[0].ToString());
+                            listOfChiledCommentsId.Add(Id);
+                        }
+                        return listOfChiledCommentsId;
+                    }
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public bool? GetLikeInfo(int userId, int commentId)
+        {
+            bool? response = null;
+            using (SqlConnection conn = ConnectionHelper.GetNewConnection())
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "Get_LikeByUserIdAndCommentId";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@UserId", userId);
+                        cmd.Parameters.AddWithValue("@CommentId", commentId);
+                        SqlDataAdapter adapter = new SqlDataAdapter();
+                        adapter.SelectCommand = cmd;
+                        DataTable dt = new DataTable();
+                        adapter.Fill(dt);
+
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            response = bool.Parse(row[0].ToString());
+                        }
+                        return response;
+                    }
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
         public int Insert(Comment comment)
         {
             int commentId = 0;
@@ -219,7 +294,7 @@ namespace Server.Repository
             }
         }
 
-        public void Delete(CommentDTO comment)
+        public void Delete(int commentId)
         {
             using (SqlConnection conn = ConnectionHelper.GetNewConnection())
             {
@@ -230,7 +305,7 @@ namespace Server.Repository
                     {
                         cmd.CommandText = "Delete_Comment";
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@Id", comment.Id);
+                        cmd.Parameters.AddWithValue("@Id", commentId);
                         cmd.ExecuteNonQuery();
                     }
                 }
@@ -260,6 +335,36 @@ namespace Server.Repository
                         cmd.Parameters.AddWithValue("@CommentId", commentId);
                         cmd.Parameters.AddWithValue("@IsLiked", like);
                         cmd.ExecuteNonQuery();
+                    }
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+   
+
+        public bool DeleteLike(int userId, int commentId)
+        {
+            using (SqlConnection conn = ConnectionHelper.GetNewConnection())
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "Delete_Like";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@UserId", userId);
+                        cmd.Parameters.AddWithValue("@CommentId", commentId);
+                        cmd.ExecuteNonQuery();
+                        return true;
                     }
                 }
                 catch

@@ -4,11 +4,11 @@ AS
 BEGIN
     IF EXISTS (SELECT * FROM tblCommentLikes
         WHERE UserId=@UserId
-               and CommentId=@CommentId)
+               and CommentId=@CommentId and IsDeleted='false')
     begin
 		update tblCommentLikes set
 		       IsLiked=@IsLiked
-		where UserId=@UserId and CommentId=@CommentId
+		where UserId=@UserId and CommentId=@CommentId and IsDeleted='false'
     end
    else
 	begin 

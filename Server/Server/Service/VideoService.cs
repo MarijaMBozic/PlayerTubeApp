@@ -28,7 +28,13 @@ namespace Server.Service
 
         public VideoDTO GetVideoById(int id)
         {
-            return _repository.GetVideoById(id);
+            VideoDTO video=_repository.GetVideoById(id);
+            if (video != null)
+            {
+                video.Views += 1;
+                _repository.View(video.Views, id);
+            }
+            return video;
         }
 
         public IEnumerable<VideoDTO> GetAllVideosByUserId(int userId)
@@ -152,10 +158,18 @@ namespace Server.Service
 
             var userId = int.Parse(identity.Name);
 
-            var video = _repository.GetVideoById(videoId);
-            if(video.UserId== userId)
+            //var video = _repository.GetVideoById(videoId);
+            //if(video.UserId== userId)
+            //{
+            //    return false;
+            //}
+
+            bool? likeData = _repository.GetLikeInfo(userId, videoId);
+
+            if (like == likeData)
             {
-                return false;
+                _repository.DeleteLike(userId, videoId);
+                return true;
             }
 
             try

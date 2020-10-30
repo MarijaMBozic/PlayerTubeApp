@@ -103,7 +103,7 @@ namespace Server.Service
             {
                 if (identity.Name == comment.UserId.ToString())
                 {
-                    _repository.Delete(comment);
+                    DeleteChildeComments(comment.Id);
                     return true;
                 }
                 return false;
@@ -112,6 +112,20 @@ namespace Server.Service
             {
                 System.Diagnostics.Debug.WriteLine("Exeption" + ex.Message.ToString());
                 return false;
+            }
+        }
+
+        public void DeleteChildeComments(int commentId)
+        {
+            IEnumerable<int> listOfChildeComments = _repository.GetAllCommentsByParentId(commentId);
+
+            if(listOfChildeComments.Count()!=0)
+            {
+                foreach (var comment in listOfChildeComments)
+                {
+                    DeleteChildeComments(comment);
+                    _repository.Delete(commentId);
+                }
             }
         }
 
@@ -125,10 +139,12 @@ namespace Server.Service
 
             var userId = int.Parse(identity.Name);
 
-            var comment = _repository.GetCommentById(commentId);
-            if (comment.UserId == userId)
+            bool? likeData =_repository.GetLikeInfo(userId, commentId);
+
+            if(like==likeData)
             {
-                return false;
+                _repository.DeleteLike(userId, commentId);
+                return true;
             }
 
             try

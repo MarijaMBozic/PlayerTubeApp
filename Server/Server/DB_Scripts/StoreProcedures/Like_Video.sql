@@ -4,11 +4,11 @@ AS
 BEGIN
     IF EXISTS (SELECT * FROM tblVideoLikes
         WHERE UserId=@UserId
-               and VideoId=@VideoId)
+               and VideoId=@VideoId and IsDeleted='false')
     begin
 		update tblVideoLikes set
 		       IsLiked=@IsLiked
-		where UserId=@UserId and VideoId=@VideoId
+		where UserId=@UserId and VideoId=@VideoId and IsDeleted='false'
     end
    else
 	begin 

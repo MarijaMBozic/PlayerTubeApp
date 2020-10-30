@@ -342,14 +342,17 @@
     <Content Include="DB_Scripts\StoreProcedures\Check_Email.sql" />
     <Content Include="DB_Scripts\StoreProcedures\Check_Username.sql" />
     <Content Include="DB_Scripts\StoreProcedures\Delete_Comment.sql" />
+    <Content Include="DB_Scripts\StoreProcedures\Delete_Like.sql" />
     <Content Include="DB_Scripts\StoreProcedures\Delete_User.sql" />
     <Content Include="DB_Scripts\StoreProcedures\Delete_Video.sql" />
+    <Content Include="DB_Scripts\StoreProcedures\Get_AllCommentsByParentId.sql" />
     <Content Include="DB_Scripts\StoreProcedures\Get_AllCommentsBySongId.sql" />
     <Content Include="DB_Scripts\StoreProcedures\Get_AllCommentsByVideoId.sql" />
     <Content Include="DB_Scripts\StoreProcedures\Get_AllCommentsByVideoIdAndParentComment.sql" />
     <Content Include="DB_Scripts\StoreProcedures\Get_AllVideoByUserId.sql" />
     <Content Include="DB_Scripts\StoreProcedures\Get_AllVideos.sql" />
     <Content Include="DB_Scripts\StoreProcedures\Get_CommentsById.sql" />
+    <Content Include="DB_Scripts\StoreProcedures\Get_LikeByUserIdAndCommentId.sql" />
     <Content Include="DB_Scripts\StoreProcedures\Get_LoginData.sql" />
     <Content Include="DB_Scripts\StoreProcedures\Get_UserById.sql" />
     <Content Include="DB_Scripts\StoreProcedures\Get_VideoById.sql" />

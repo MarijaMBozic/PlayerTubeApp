@@ -15,6 +15,7 @@ namespace Server.Service.Interface
         Comment Insert(Comment comment);
         Comment Update(int id, Comment comment);
         bool Delete(int id);
+        void DeleteChildeComments(int commentId);
         bool Like(int commentId, bool like);
     }
 }

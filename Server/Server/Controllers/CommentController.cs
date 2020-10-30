@@ -83,14 +83,14 @@ namespace Server.Controllers
         }
 
         [JwtAuthentication]
-        [Route("api/Like")]
-        public IHttpActionResult LikeComment(int commentId, bool like)
+       
+        public IHttpActionResult GetLikeComment(int commentId, bool like)
         {
             if (!(_service.Like(commentId, like)))
             {
                 throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound)
                 {
-                    Content = new StringContent(string.Format("The video is not found!!")),
+                    Content = new StringContent(string.Format("The comment is not found!!")),
                 });
             }
             return Ok();

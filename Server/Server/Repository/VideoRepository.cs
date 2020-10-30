@@ -282,7 +282,7 @@ namespace Server.Repository
                 {
                     using (SqlCommand cmd = conn.CreateCommand())
                     {
-                        cmd.CommandText = "Update_Video";
+                        cmd.CommandText = "Update_VideoViews";
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@Id", videoId);
                         cmd.Parameters.AddWithValue("@Views", numberOfViews);
@@ -300,41 +300,69 @@ namespace Server.Repository
             }
         }
 
-        // public void GetNumerOfLikesByVideoId(int videoId, int numberOfLikes, int numberOfUnlikes)
-        //{
-        //    using (SqlConnection conn = ConnectionHelper.GetNewConnection())
-        //    {
-        //        conn.Open();
-        //        try
-        //        {
-        //            using (SqlCommand cmd = conn.CreateCommand())
-        //            {
-        //                cmd.CommandText = "NumberOfLikesByVideoId";
-        //                cmd.CommandType = CommandType.StoredProcedure;
-        //                cmd.Parameters.AddWithValue("@VideoId", videoId);
-        //                SqlDataAdapter adapter = new SqlDataAdapter();
-        //                adapter.SelectCommand = cmd;
-        //                DataTable dt = new DataTable();
-        //                adapter.Fill(dt);
+        public bool? GetLikeInfo(int userId, int videoId)
+        {
+            bool? response = null;
+            using (SqlConnection conn = ConnectionHelper.GetNewConnection())
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "Get_LikeByUserIdAndVideoId";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@UserId", userId);
+                        cmd.Parameters.AddWithValue("@VideoId", videoId);
+                        SqlDataAdapter adapter = new SqlDataAdapter();
+                        adapter.SelectCommand = cmd;
+                        DataTable dt = new DataTable();
+                        adapter.Fill(dt);
 
-        //                foreach (DataRow row in dt.Rows)
-        //                {
-        //                    numberOfLikes = int.Parse(row[0].ToString());
-        //                    numberOfUnlikes = int.Parse(row[2].ToString());
-        //                }
-        //            }
-        //        }
-        //        catch
-        //        {
-        //            throw;
-        //        }
-        //        finally
-        //        {
-        //            conn.Close();
-        //        }
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            response = bool.Parse(row[0].ToString());
+                        }
+                        return response;
+                    }
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
 
-        //    }
-
-        // }
+        public bool DeleteLike(int userId, int videoId)
+        {
+            using (SqlConnection conn = ConnectionHelper.GetNewConnection())
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "Delete_LikeVideo";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@UserId", userId);
+                        cmd.Parameters.AddWithValue("@VideoId", videoId);
+                        cmd.ExecuteNonQuery();
+                        return true;
+                    }
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }        
     }
 }

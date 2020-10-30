@@ -12,10 +12,13 @@ namespace Server.Repository.Interface
     {
         IEnumerable<CommentDTO> GetAllCommentsByVideoId(int videoId);
         IEnumerable<CommentDTO> Get_AllCommentsByVideoIdAndParentComment(int videoId, int parentCommentId);
+        IEnumerable<int> GetAllCommentsByParentId(int commentId);
         CommentDTO GetCommentById(int commentId);
         int Insert(Comment comment);
         void Update(Comment comment);
-        void Delete(CommentDTO comment);
+        void Delete(int commentId);
         void Like(int userId, int commentId, bool like);
+        bool? GetLikeInfo(int userId, int commentId);
+        bool DeleteLike(int userId, int commentId);
     }
 }

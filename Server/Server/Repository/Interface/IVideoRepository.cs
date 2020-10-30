@@ -18,5 +18,7 @@ namespace Server.Repository.Interface
         void View(int numberOfViews, int videoId);
         void Like(int userId, int videoId, bool like);
         bool Delete(int id);
+        bool? GetLikeInfo(int userId, int commentId);
+        bool DeleteLike(int userId, int commentId);
     }
 }
