@@ -1,5 +1,6 @@
 ﻿using Server.DTO;
 using Server.Helper.Exeptions;
+using Server.Helper.Exeptions.UserExeption;
 using Server.Models;
 using Server.Service.Interface;
 using System;
@@ -21,6 +22,7 @@ namespace Server.Controllers
         }
 
         [AllowAnonymous]
+        [CustomExeptionFilter]
         [Route("api/Token")]
         public IHttpActionResult Post(User user)
         {
@@ -28,11 +30,7 @@ namespace Server.Controllers
 
             if (loginUser == null)
             {
-                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.NotFound)
-                {
-                    Content = new StringContent(string.Format("Invalid email or password!")),
-                    ReasonPhrase = "User Not Found"
-                });
+                throw new LoginExeption();
             }
             return Ok(loginUser);                              
         }
