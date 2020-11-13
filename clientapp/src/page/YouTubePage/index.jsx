@@ -1,17 +1,17 @@
-import React from 'react';
-import FirstPage from './../../components/FirstPage';
-import UserPage from './../../components/UserPage';
+import React from "react";
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import HomePage from "../HomePage";
+import UserPage from "../UserPage";
+import VideoPage from "./../VideoPage";
 
-function Homepage(){
-    return(
-        <BrowserRouter>
-            <Switch>    
-                <Route exact path="/" component={FirstPage}/>
-                <Route  path="/user" component={UserPage}/>
-            </Switch>  
-        </BrowserRouter>
-    )
+function YouTubePage(){
+    return (
+      <BrowserRouter>
+        <Switch>     
+          <Route  path="/" component={HomePage} />
+        </Switch>
+      </BrowserRouter>
+    );
 }
 
-export default Homepage;
+export default YouTubePage;

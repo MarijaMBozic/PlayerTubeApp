@@ -1,0 +1,10 @@
+.player-wrapper {  
+    position: relative;
+    background-color: chartreuse;
+  }
+   
+  .react-player {
+    position: absolute;
+    top: 5vh;
+    left: 0;
+  }

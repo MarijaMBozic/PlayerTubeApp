@@ -1,0 +1,28 @@
+.wraped-container{
+    width: 100%;
+    height: 100%;
+}
+
+.container-header{
+    display: inline;
+    float: left;
+    margin-top: 0%;
+    padding-left: 20vh;
+    width: 60%;
+    height: 70vh;
+}
+
+.container-comments{
+    justify-content: center;
+    margin-top: 0%;
+    padding-left: 20vh;
+    width: 60%;
+    height: auto;
+}
+
+.container-videoList{
+    display: inline;
+    float: right;
+    margin-top: 0%;
+    width: 25%;
+}

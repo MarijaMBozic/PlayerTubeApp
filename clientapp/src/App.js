@@ -1,11 +1,11 @@
-import React from 'react';
-import YouTubePage from './page/YouTubePage';
+import React from "react";
+import YouTubePage from "./page/YouTubePage";
 
 function App() {
   return (
-    <> 
-      <YouTubePage/>
-    </>
+    <h1>
+      <YouTubePage />
+    </h1>
   );
 }
 
