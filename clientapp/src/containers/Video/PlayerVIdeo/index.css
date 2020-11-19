@@ -1,10 +1,73 @@
-.player-wrapper {  
-    position: relative;
-    background-color: chartreuse;
-  }
-   
-  .react-player {
-    position: absolute;
-    top: 5vh;
-    left: 0;
-  }
+.main__video-container {
+	position: relative;
+	padding-bottom: 52.4%;
+	/*16:9*/
+	padding-top: 30px;
+	height: 0;
+  display: flex;
+  flex-direction: column; 
+}
+
+.main__video-container video{
+  position: absolute;
+	top: 5%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.main__description {
+
+	border-bottom: 1px solid lightgray;
+	margin-bottom: 1rem;
+	padding-bottom: 2rem;
+  margin-top: 2rem;  
+
+}
+
+.main__description_metadata i{
+   color: #555;
+}
+
+.main__description_metadata{
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-right: 3rem;
+}
+
+.main__subscriptions{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.main__sub-description a{
+  display: flex;
+  flex-direction: row;
+  text-decoration: none;
+}
+
+.main__sub-description .metadate{
+  display: flex;
+  flex-direction:column;
+  justify-content: start;
+  align-items: flex-start;
+  margin-left: 1rem;  
+  color: #000;  
+}
+
+.main__sub-description .metadate p{
+line-height: 0.5rem;
+margin: 0;
+}
+
+.main__sub-description p {
+margin-top: 2em;
+float: left;
+}
+
+.main__sub-description p:first-of-type {
+margin-right: 6em;
+}
+

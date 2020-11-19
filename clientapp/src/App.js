@@ -1,11 +1,10 @@
 import React from "react";
 import YouTubePage from "./page/YouTubePage";
+import "./index.css"
 
 function App() {
   return (
-    <h1>
       <YouTubePage />
-    </h1>
   );
 }
 

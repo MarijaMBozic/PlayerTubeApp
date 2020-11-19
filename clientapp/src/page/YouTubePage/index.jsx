@@ -1,14 +1,14 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import HomePage from "../HomePage";
-import UserPage from "../UserPage";
-import VideoPage from "./../VideoPage";
+import ErrorPage from "./../ErrorPage";
+
 
 function YouTubePage(){
     return (
       <BrowserRouter>
-        <Switch>     
-          <Route  path="/" component={HomePage} />
+        <Switch>
+          <Route path="/" component={HomePage} />
         </Switch>
       </BrowserRouter>
     );

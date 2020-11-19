@@ -1,7 +1,77 @@
 
-
-.player-wrapper-list li{
-    display: inline;
+.video-cards{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
+    gap: 3rem 1rem;
+    padding: 3rem 0;
+    margin: 0 1.5rem;
 }
 
+.video-container{
+    display:flex;
+    flex-direction: column;
+}
+
+.video-container:first-child{
+    height: 50%;
+    margin: 0;
+}
+
+.video-cards .video-image{
+    position: relative;
+    display: flex;
+}
+
+.video-image video{
+    width: 100%;
+    height: 100%;
+    max-width: 200px;
+    max-height: 150px;
+    background-color: rgb(37, 36, 36);
+}
+
+.video-bottom-section{
+    display: flex;
+    align-items: flex-start;
+    margin-top: 1rem;
+}
+
+.channel-icon{
+margin-right: .75rem;
+border-radius: 50%;
+width: 36px;
+height: 36px;
+}
+
+.video-details{
+    display: flex;
+    flex-direction: column;
+}
+
+.video-details h3{
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: .5rem;
+    text-decoration: none;
+    color: #000;
+}
+
+.video-details p{
+    margin-bottom: .1rem;
+    transition: color 150ms;
+}
+
+.video-details p:hover{
+    color: rgb(100, 100, 100);
+}
+
+.video-details .video-info, p{
+    font-size: 1rem;
+color: #555;
+}
+
+.video-cards a{
+    text-decoration: none;
+    color: #000;
+}
 

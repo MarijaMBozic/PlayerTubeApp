@@ -14,32 +14,42 @@ function VideoPlayerList() {
   useEffect(() => {
     dispatch(getAllVideos());
   }, [dispatch]);
-
-  console.log("video from dispatch", videoInfo);
+ console.log(videoInfo);
   return (
-    <div className="player-wrapper-list">
+    <div className="video-cards">
       {videoInfo?.map?.((video, index) => {
-        const { Id, Name, Path } = video;
-
+        const { Id, Name, Path, Username, Views } = video;
         return (
-          <li key={`video_${index}`}>
-            <NavLink
-              to={{
-                pathname: `/watch/${Name}`,
-                aboutProps: {
-                  name: Id,
-                },
-              }}
-            >
-              <ReactPlayer
-                className="react-player-list"
+          <NavLink className="video-container" key={`video_${index}`}
+          to={{
+            pathname: `/watch/${Name}`,
+            aboutProps: {
+              name: Id,
+            },
+          }}
+        >
+                   
+              <div className="video-image">
+              <ReactPlayer                
                 url={videoPath + Path}
-                width="40vh"
-                height="30vh"
+                width="200px"
+                height="150px"
               />
-              <p>{Name}</p>
-            </NavLink>
-          </li>
+              </div>
+              <div className="video-bottom-section">
+                    <div className="channel-icon">
+                        <i className="fas fa-user-circle"></i>
+                    </div>                    
+                    <div className="video-details">
+                      <h3>{Name}</h3>
+                      <p>{Username}</p>
+                      <div className="video-info">
+                        <span> {Views} views</span>
+                      </div>
+                    </div>
+              </div>
+         
+        </NavLink>
         );
       })}
     </div>

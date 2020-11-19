@@ -1,19 +1,21 @@
 import React from "react";
 import { Route } from "react-router-dom";
+import ErrorPage from "../ErrorPage";
 import Login from "./../../containers/Login/Login";
 import VideoPlayerList from "./../../containers/Video/VideoPlayerList";
 import VideoPage from "./../VideoPage";
+import "./index.css";
 
 function HomePage() {
   return (
     <>
-      <div>
+      <header className="main-nav">
         <Login />
-      </div>
-      <div>
-        <Route exact path="/" component={VideoPlayerList} />
-        <Route path="/watch/:video" component={VideoPage} />
-      </div>
+      </header>
+
+          <Route exact path="/" component={VideoPlayerList} />
+          <Route exact path="/watch/:video" component={VideoPage} />
+
     </>
   );
 }
