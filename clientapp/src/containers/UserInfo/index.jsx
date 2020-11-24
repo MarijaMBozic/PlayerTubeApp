@@ -16,16 +16,19 @@ function UserInfo() {
   console.log("UserInfo username", userInfo)
   return (
     <div>
-        <ul className="userinfo_item">
-          <li>
-            <label>{userInfo}</label>
-          </li>
-          <li className="last">
-            <button className="btn orange" type="submit" onClick={handleLogout}>
-              LogOut
-            </button>
-          </li>
-        </ul>
+      <ul className="userinfo_item">
+        <li>
+            <i className="fas fa-user-circle fa-2x"></i>
+        </li>
+        <li>
+          <label>{userInfo}</label>
+        </li>
+        <li className="last">
+          <button className="btn-logOut" type="submit" onClick={handleLogout}>
+            LogOut
+          </button>
+        </li>
+      </ul>
     </div>
   );
 }

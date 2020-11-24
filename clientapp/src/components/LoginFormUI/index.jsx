@@ -1,16 +1,16 @@
 import React from "react";
+import "./index.css";
 
 function LoginFormUI(props) {
   const { loginData, handleChange, handleSubmitLogin, handleModal } = props;
-
   const { email, password } = loginData;
 
   return (
-    <div>
-      <form onSubmit={handleSubmitLogin}>
-        <ul>
-          <li>
-            <input
+    <form action="#" className="sign-in-form" id="form">
+    <h2 className="title">Sign in</h2>
+    <div className="input-field">
+      <i className="fas fa-envelope"></i>
+      <input
               type="text"
               name="email"
               value={email || ""}
@@ -18,9 +18,10 @@ function LoginFormUI(props) {
               className="in-text large"
               onChange={handleChange("email")}
             />
-          </li>
-          <li>
-            <input
+    </div>
+    <div className="input-field">
+      <i className="fas fa-lock"></i>
+      <input
               type="password"
               name="password"
               value={password || ""}
@@ -28,19 +29,9 @@ function LoginFormUI(props) {
               className="in-pass large"
               onChange={handleChange("password")}
             />
-          </li>
-
-          <li className="last">
-            <button className="btn orange" type="submit">
-              Login
-            </button>
-            <button type="button" className="btn orange" onClick={handleModal}>
-              Registration
-            </button>
-          </li>
-        </ul>
-      </form>
     </div>
+    <input type="submit" onClick={handleSubmitLogin} value="Login" className="btn solid" />
+  </form>
   );
 }
 

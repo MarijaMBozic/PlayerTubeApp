@@ -1,5 +1,5 @@
 .logo{
-    width: 110px;
+    width: 90px;
 }
 
 .search-bar{
@@ -36,14 +36,14 @@
 
 .menu-icon{
     display: grid;
-    grid-template-columns: repeat(2,auto);
+    grid-template-columns: repeat(2,1fr);
     align-items: center;
-    gap:1.5rem;
 }
 
 .menu-icon .btn-singin{
-    border: 1px solid rgb(63, 96, 241);
+    border: 2px solid rgb(194, 68, 9);
     padding: .4rem;
-    color: rgb(63, 96, 241);
+    color:rgb(194, 68, 9);
+    background-color: transparent;
     font-weight: bold;
 }

@@ -20,36 +20,36 @@ function VideoPlayerList() {
       {videoInfo?.map?.((video, index) => {
         const { Id, Name, Path, Username, Views } = video;
         return (
-          <NavLink className="video-container" key={`video_${index}`}
-          to={{
-            pathname: `/watch/${Name}`,
-            aboutProps: {
-              name: Id,
-            },
-          }}
-        >
-                   
-              <div className="video-image">
-              <ReactPlayer                
+          <NavLink
+            className="video-container"
+            key={`video_${index}`}
+            to={{
+              pathname: `Home/watch/${Name}`,
+              aboutProps: {
+                name: Id,
+              },
+            }}
+          >
+            <div className="video-image">
+              <ReactPlayer
                 url={videoPath + Path}
                 width="200px"
                 height="150px"
               />
+            </div>
+            <div className="video-bottom-section">
+              <div className="channel-icon">
+                <i className="fas fa-user-circle"></i>
               </div>
-              <div className="video-bottom-section">
-                    <div className="channel-icon">
-                        <i className="fas fa-user-circle"></i>
-                    </div>                    
-                    <div className="video-details">
-                      <h3>{Name}</h3>
-                      <p>{Username}</p>
-                      <div className="video-info">
-                        <span> {Views} views</span>
-                      </div>
-                    </div>
+              <div className="video-details">
+                <h3>{Name}</h3>
+                <p>{Username}</p>
+                <div className="video-info">
+                  <span> {Views} views</span>
+                </div>
               </div>
-         
-        </NavLink>
+            </div>
+          </NavLink>
         );
       })}
     </div>

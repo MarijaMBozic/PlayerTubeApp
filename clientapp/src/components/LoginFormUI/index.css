@@ -1,0 +1,9 @@
+form.sign-in-form {
+    z-index: 2;
+  }
+
+
+  .container.sign-up-mode form.sign-in-form {
+    opacity: 0;
+    z-index: 1;
+  }

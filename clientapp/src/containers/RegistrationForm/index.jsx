@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import ReactDOM from "react-dom";
 import { registrationUser } from "../../actions/user";
 import RegistrationUI from "./../../components/RegistrationUI";
 
@@ -22,16 +21,13 @@ function RegistrationForm(props) {
     handleModal();
   };
 
-  return ReactDOM.createPortal(
-    <>
+  return (
       <RegistrationUI
         registrationData={registrationData}
         handleChange={handleChange}
         handleSubmit={handleSubmit}
         handleModal={handleModal}
       />
-    </>,
-    document.getElementById("modal")
   );
 }
 

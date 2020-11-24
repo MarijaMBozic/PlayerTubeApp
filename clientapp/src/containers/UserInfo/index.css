@@ -1,6 +1,7 @@
 .userinfo_item{
-    float: right;
-    padding-right: 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
        
 }
 
@@ -8,3 +9,26 @@
     display: inline;
     margin-left: 5px;
 }
+
+.userinfo_item li i{
+    color: #f58a11;
+}
+
+.btn-logOut{
+    width: 100px;
+    background-color: #f58a11;
+    border: none;
+    outline: none;
+    height: 35px;
+    border-radius: 49px;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 10px 0;
+    cursor: pointer;
+    transition: 0.5s;
+  }
+  
+  .btn-logOut:hover {
+    opacity: 0.7;
+  }
