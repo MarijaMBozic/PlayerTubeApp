@@ -14,7 +14,7 @@ function VideoPlayerList() {
   useEffect(() => {
     dispatch(getAllVideos());
   }, [dispatch]);
- console.log(videoInfo);
+
   return (
     <div className="video-cards">
       {videoInfo?.map?.((video, index) => {
@@ -24,7 +24,7 @@ function VideoPlayerList() {
             className="video-container"
             key={`video_${index}`}
             to={{
-              pathname: `Home/watch/${Name}`,
+              pathname: `watch/${Name}`,
               aboutProps: {
                 name: Id,
               },

@@ -34,7 +34,7 @@ namespace Server.Controllers
 
         [AllowAnonymous]
         [Route("api/GetVideo")]
-        public VideoDTO GetAllById(int videoId)
+        public VideoDTO GetVideoById(int videoId)
         {
             return _service.GetVideoById(videoId);
         }

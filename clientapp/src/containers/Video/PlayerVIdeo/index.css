@@ -51,7 +51,7 @@
 .main__sub-description .metadate{
   display: flex;
   flex-direction:column;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: flex-start;
   margin-left: 1rem;  
   color: #000;  
@@ -71,3 +71,8 @@ float: left;
 margin-right: 6em;
 }
 
+.btn-like{
+  background-color: #fff;
+  border: none;
+  margin-left: 15px;
+}

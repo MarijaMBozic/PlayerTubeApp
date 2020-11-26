@@ -29,8 +29,11 @@ function handleApiCall(next, action) {
         payload: response,
       });
       if (action.type === "LOGIN_USER") {
-        const { Token } = response;
+        const { Token, Username, Id } = response;
         localStorage.setItem("Token", Token);
+        localStorage.setItem("Username", Username);
+        localStorage.setItem("Id", Id);
+        window.location.reload();
       }
     }
   });

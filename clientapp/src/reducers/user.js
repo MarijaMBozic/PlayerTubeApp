@@ -1,7 +1,7 @@
 import { LOGIN_USER_SUCCESS } from "./../actions/user";
 
 const initialState = {
-  userInfo: {},
+  userInformation: {},
 };
 
 export default function userReducer(state = initialState, action) {
@@ -9,7 +9,7 @@ export default function userReducer(state = initialState, action) {
     case LOGIN_USER_SUCCESS: {
       return {
         ...state,
-        userInfo: action.payload,
+        userInformation: action.payload,
       };
     }
     default:
@@ -17,4 +17,5 @@ export default function userReducer(state = initialState, action) {
   }
 }
 
-export const userSelector = (state) => state?.user?.userInfo.Username;
+
+

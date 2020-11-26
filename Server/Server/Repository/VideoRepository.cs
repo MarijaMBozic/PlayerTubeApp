@@ -83,6 +83,8 @@ namespace Server.Repository
         public IEnumerable<VideoDTO> GetAllVideoByUserId(int userId)
         {
             List<VideoDTO> videoList = new List<VideoDTO>();
+            int videoLikes;
+            int unlikes;
             using (SqlConnection conn = ConnectionHelper.GetNewConnection())
             {
                 conn.Open();
@@ -100,6 +102,24 @@ namespace Server.Repository
 
                         foreach (DataRow row in dt.Rows)
                         {
+                            if (row[7].ToString() == string.Empty)
+                            {
+                                videoLikes = 0;
+                            }
+                            else
+                            {
+                                videoLikes = int.Parse(row[9].ToString());
+                            }
+
+                            if (row[8].ToString() == string.Empty)
+                            {
+                                unlikes = 0;
+                            }
+                            else
+                            {
+                                unlikes = int.Parse(row[9].ToString());
+                            }
+
                             VideoDTO video = new VideoDTO
                             {
                                 Id = int.Parse(row[0].ToString()),
@@ -109,8 +129,8 @@ namespace Server.Repository
                                 Description = row[4].ToString(),
                                 Username = row[5].ToString(),
                                 UserId = int.Parse(row[6].ToString()),
-                                VideoLikes= int.Parse(row[7].ToString()),
-                                Unlikes= int.Parse(row[8].ToString())
+                                VideoLikes= videoLikes,
+                                Unlikes= unlikes
                             };
                             videoList.Add(video);
                         }
@@ -131,6 +151,8 @@ namespace Server.Repository
         public VideoDTO GetVideoById(int videoId)
         {
             VideoDTO response = null;
+            int videoLikes;
+            int unlikes;
             using (SqlConnection conn = ConnectionHelper.GetNewConnection())
             {
                 conn.Open();
@@ -148,6 +170,24 @@ namespace Server.Repository
 
                         foreach (DataRow row in dt.Rows)
                         {
+
+                            if (row[7].ToString() == string.Empty)
+                            {
+                                videoLikes = 0;
+                            }
+                            else
+                            {
+                                videoLikes = int.Parse(row[9].ToString());
+                            }
+
+                            if (row[8].ToString() == string.Empty)
+                            {
+                                unlikes = 0;
+                            }
+                            else
+                            {
+                                unlikes = int.Parse(row[9].ToString());
+                            }
                             VideoDTO video = new VideoDTO
                             {
                                 Id = int.Parse(row[0].ToString()),
@@ -156,7 +196,9 @@ namespace Server.Repository
                                 Path = row[3].ToString(),
                                 Description = row[4].ToString(),
                                 Username = row[5].ToString(),
-                                UserId = int.Parse(row[6].ToString())
+                                UserId = int.Parse(row[6].ToString()),
+                                VideoLikes = videoLikes,
+                                Unlikes = unlikes
                             };
                             response = video;
                         }

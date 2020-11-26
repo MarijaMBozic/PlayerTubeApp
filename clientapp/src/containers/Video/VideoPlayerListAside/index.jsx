@@ -25,7 +25,7 @@ function VideoPlayerListAside() {
             className="aside_video-container"
             key={`video_${index}`}
             to={{
-              pathname: `/watch/${Name}`,
+              pathname: `watch/${Name}`,
               aboutProps: {
                 name: Id,
               },

@@ -1,27 +1,28 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { userSelector } from "../../reducers/user";
 import "./index.css";
 
 function UserInfo() {
   const history = useHistory();
-  const userInfo = useSelector(userSelector);
-  
+  const username  =  localStorage.getItem("Username");
+
+  console.log("UserInfo username", username);
+
   const handleLogout = () => {
     localStorage.removeItem("Token");
+    localStorage.removeItem("Username");
+    localStorage.removeItem("Id");
     history.push("/");
   };
 
-  console.log("UserInfo username", userInfo)
   return (
     <div>
       <ul className="userinfo_item">
         <li>
-            <i className="fas fa-user-circle fa-2x"></i>
+          <i className="fas fa-user-circle fa-2x"></i>
         </li>
         <li>
-          <label>{userInfo}</label>
+          <label>{username}</label>
         </li>
         <li className="last">
           <button className="btn-logOut" type="submit" onClick={handleLogout}>

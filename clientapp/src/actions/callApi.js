@@ -1,5 +1,4 @@
 export function callApi(apiData) {
-  console.log(apiData);
   if (apiData.config.body) {
     apiData.config.body = JSON.stringify(apiData.config.body);
   }
@@ -13,7 +12,6 @@ export function callApi(apiData) {
 
   return fetch(apiData.url, apiData.config)
     .then((response) => {
-      console.log(response);
       if (!response.ok) {
         return {
           error: true,

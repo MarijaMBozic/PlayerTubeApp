@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import LoginFormUI from "./../../components/LoginFormUI";
-import { loginUser } from "../../actions/user";
+import { loginUser } from "./../../actions/user";
 import "./index.css";
 
 function LoginForm({ handleModal }) {
@@ -20,7 +20,6 @@ function LoginForm({ handleModal }) {
   const handleSubmitLogin = (e) => {
     e.preventDefault();
     dispatch(loginUser(loginData));
-    history.push(`/`);
     handleModal();
   };
 
@@ -29,6 +28,7 @@ function LoginForm({ handleModal }) {
       handleSubmitLogin={handleSubmitLogin}
       handleChange={handleChange}
       loginData={loginData}
+      handleModal={handleModal}
     />
   );
 }

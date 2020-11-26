@@ -2,7 +2,7 @@ import React from "react";
 import "./index.css";
 
 function LoginFormUI(props) {
-  const { loginData, handleChange, handleSubmitLogin, handleModal } = props;
+  const { loginData, handleChange, handleSubmitLogin } = props;
   const { email, password } = loginData;
 
   return (

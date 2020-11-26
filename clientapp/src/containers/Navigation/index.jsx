@@ -14,19 +14,19 @@ function Navigation() {
 
   return (
     <>
-      <a href="#">
+      <a href="/">
         <img src="images/logo.svg" alt="PlayerTube" className="logo" />
       </a>
       <form className="search-bar">
         <input type="search" className="search-input" placeholder="Search" />
-        <a className="search-btn">
+        <button className="search-btn">
           <i className="fas fa-search"></i>
-        </a>
+        </button>
       </form>
       <div className="menu-icon">
-        <a href="#">
+        <button className="btn-video" >
           <i className="fas fa-video"></i>
-        </a>
+        </button>
         {isAuth ? (
           <UserInfo />
         ) : (
