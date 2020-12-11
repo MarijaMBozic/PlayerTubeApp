@@ -40,6 +40,13 @@ namespace Server.Controllers
         }
 
         [AllowAnonymous]
+        [Route("api/SearchVideo")]
+        public IEnumerable<VideoDTO> GetVideoBySearch(string videoName)
+        {
+            return _service.GetAllVideosBySearch(videoName);
+        }
+
+        [AllowAnonymous]
         public IEnumerable<VideoDTO> GetAllVideosByUserId(int userId)
         {
             return _service.GetAllVideosByUserId(userId);

@@ -148,6 +148,74 @@ namespace Server.Repository
             }
         }
 
+        public IEnumerable<VideoDTO> GetAllVideoBySearch(string videoName)
+        {
+            List<VideoDTO> videoList = new List<VideoDTO>();
+            int videoLikes;
+            int unlikes;
+            using (SqlConnection conn = ConnectionHelper.GetNewConnection())
+            {
+                conn.Open();
+                try
+                {
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "Get_AllVideosBySearch";
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@InputName", videoName);
+                        SqlDataAdapter adapter = new SqlDataAdapter();
+                        adapter.SelectCommand = cmd;
+                        DataTable dt = new DataTable();
+                        adapter.Fill(dt);
+
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            if (row[7].ToString() == string.Empty)
+                            {
+                                videoLikes = 0;
+                            }
+                            else
+                            {
+                                videoLikes = int.Parse(row[9].ToString());
+                            }
+
+                            if (row[8].ToString() == string.Empty)
+                            {
+                                unlikes = 0;
+                            }
+                            else
+                            {
+                                unlikes = int.Parse(row[9].ToString());
+                            }
+
+                            VideoDTO video = new VideoDTO
+                            {
+                                Id = int.Parse(row[0].ToString()),
+                                Name = row[1].ToString(),
+                                Views = int.Parse(row[2].ToString()),
+                                Path = row[3].ToString(),
+                                Description = row[4].ToString(),
+                                Username = row[5].ToString(),
+                                UserId = int.Parse(row[6].ToString()),
+                                VideoLikes = videoLikes,
+                                Unlikes = unlikes
+                            };
+                            videoList.Add(video);
+                        }
+                        return videoList;
+                    }
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
         public VideoDTO GetVideoById(int videoId)
         {
             VideoDTO response = null;
@@ -425,6 +493,6 @@ namespace Server.Repository
                     conn.Close();
                 }
             }
-        }        
+        }
     }
 }

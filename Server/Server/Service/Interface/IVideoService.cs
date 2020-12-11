@@ -14,6 +14,7 @@ namespace Server.Service.Interface
         IEnumerable<VideoDTO> GetAllVideos();
         VideoDTO GetVideoById(int videoId);
         IEnumerable<VideoDTO> GetAllVideosByUserId(int userId);
+        IEnumerable<VideoDTO> GetAllVideosBySearch(string videoName);
         Video Insert(MultipartFormDataStreamProvider video, string root);
         bool Update(int id, Video video);
         bool View(int numberOfViews, int videoId);

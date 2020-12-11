@@ -19,12 +19,13 @@ namespace Server.Service
     public class VideoService : IVideoService
     {
         IVideoRepository _repository;
+        IUserRepository _userRepository;
+        ISubscriberService _subscriberservice;
 
         public VideoService(IVideoRepository repository)
         {
             _repository = repository;
         }
-
 
         public VideoDTO GetVideoById(int id)
         {
@@ -95,6 +96,13 @@ namespace Server.Service
                 };
 
                 _repository.Insert(newVideo);
+
+                var loginUser = _userRepository.GetUserById(newVideo.UserId);
+
+                foreach (var user in _subscriberservice.GetAllSubscribersByUser(newVideo.UserId))
+                {
+                    _subscriberservice.SendEmail(user.SubscriberEmail, loginUser.Username , newVideo.Name);
+                }
 
                 return newVideo;
             }
@@ -221,6 +229,21 @@ namespace Server.Service
                 System.Diagnostics.Debug.WriteLine("Exeption" + ex.Message.ToString());
                 return false;
             }
-        }        
+        }
+
+        public IEnumerable<VideoDTO> GetAllVideosBySearch(string videoName)
+        {
+            try
+            {
+                var videos = _repository.GetAllVideoBySearch(videoName);
+
+                return videos;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exeption" + ex.Message.ToString());
+                return null;
+            }
+        }
     }
 }

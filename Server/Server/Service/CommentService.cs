@@ -131,11 +131,16 @@ namespace Server.Service
 
         public bool Like(int commentId, bool like)
         {
-            var identity = HttpContext.Current.User.Identity as ClaimsIdentity;
-            if (identity == null)
+            if (!(HttpContext.Current.User.Identity is ClaimsIdentity identity))
             {
                 return false;
             }
+
+            //var identity = HttpContext.Current.User.Identity as ClaimsIdentity;
+            //if (identity == null)
+            //{
+            //    return false;
+            //}
 
             var userId = int.Parse(identity.Name);
 

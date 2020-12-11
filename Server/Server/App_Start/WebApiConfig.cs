@@ -47,6 +47,8 @@ namespace Server
             container.RegisterType<ILoginService, LoginService>(new HierarchicalLifetimeManager());
             container.RegisterType<IVideoRepository, VideoRepository>(new HierarchicalLifetimeManager());
             container.RegisterType<IVideoService, VideoService>(new HierarchicalLifetimeManager());
+            container.RegisterType<ISubscriberRepository, SubscriberRepository>(new HierarchicalLifetimeManager());
+            container.RegisterType<ISubscriberService, SubscriberService>(new HierarchicalLifetimeManager());
             config.DependencyResolver = new UnityResolver(container);
         }
     }

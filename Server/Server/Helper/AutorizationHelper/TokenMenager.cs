@@ -12,7 +12,7 @@ namespace Server.Helper.AutorizationHelper
     {
         private const string Secret = "db3OIsj+BXE9NZDy0t8W3TcNekrF+2d/1sFnWG4HnV8TZY30iTOdtVWJG8abWvB1GlOgJuQZdcF2Luqm/hccMw==";
 
-        public static string GenerateToken(int Id, string username)
+        public static string GenerateToken(int id, string username)
         {
             var symmetricKey = Convert.FromBase64String(Secret);
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -22,7 +22,7 @@ namespace Server.Helper.AutorizationHelper
             {
                 Subject = new ClaimsIdentity(new[]
                         {
-                            new Claim(ClaimTypes.Name, Id.ToString()),
+                            new Claim(ClaimTypes.Name, id.ToString()),
                             new Claim(ClaimTypes.GivenName, username)
                         }),
 

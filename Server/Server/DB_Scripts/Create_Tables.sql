@@ -2,6 +2,7 @@ IF DB_ID('YouTubeApp') IS NULL
 CREATE DATABASE YouTubeApp
 GO
 USE YouTubeApp;
+drop table if exists tblSubscribers
 drop table if exists tblCommentLikes
 drop table if exists tblVideoLikes 
 drop table if exists tblComment 
@@ -56,6 +57,15 @@ create table tblCommentLikes(
    UserId             int                    not null,
    FOREIGN KEY (UserId) REFERENCES tblUser(Id),
    IsLiked        bit				     not null,
+   IsDeleted       bit			   default 0 not null,
+)
+
+create table tblSubscribers(
+   Id                 int          identity (1,1) primary key,     
+   UserId             int                    not null,
+   FOREIGN KEY (UserId) REFERENCES tblUser(Id),
+   SubscriberId             int                    not null,
+   FOREIGN KEY (SubscriberId) REFERENCES tblUser(Id),
    IsDeleted       bit			   default 0 not null,
 )
 

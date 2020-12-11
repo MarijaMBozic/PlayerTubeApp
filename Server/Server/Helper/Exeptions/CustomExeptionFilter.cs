@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Http.Filters;
 using System.Web.Mvc;
 using Microsoft.AspNetCore.Mvc;
+using Server.Helper.Exeptions.MailExeption;
 using Server.Helper.Exeptions.UserExeption;
 
 namespace Server.Helper.Exeptions
@@ -23,6 +24,16 @@ namespace Server.Helper.Exeptions
             {
                 errorMessage = "Invalid credentials";
                 statusCode = HttpStatusCode.NotFound;
+            }
+            else if (exeptionType == typeof(AlreadySubscribedExeption))
+            {
+                errorMessage = "You Already Subscribed for this user";
+                statusCode = HttpStatusCode.BadRequest;
+            }
+            else if (exeptionType == typeof(SendEmailExeption))
+            {
+                errorMessage = "Something went wrong with sending an email to a subscriber";
+                statusCode = HttpStatusCode.BadRequest;
             }
             else
             {

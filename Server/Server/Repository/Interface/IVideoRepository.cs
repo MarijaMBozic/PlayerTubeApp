@@ -12,6 +12,7 @@ namespace Server.Repository.Interface
     {
         IEnumerable<VideoDTO> GetAllVideos();
         IEnumerable<VideoDTO> GetAllVideoByUserId(int userId);
+        IEnumerable<VideoDTO> GetAllVideoBySearch(string videoName);
         VideoDTO GetVideoById(int videoId);
         int Insert(Video video);
         void Update(Video video);
